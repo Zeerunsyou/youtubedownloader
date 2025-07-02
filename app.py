@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file, render_template
+from flask import Flask, render_template, request, send_file
 from flask_cors import CORS
 import yt_dlp
 import uuid
@@ -8,14 +8,13 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
-def home():
-    return render_template("index.html")
+def index():
+    return render_template('index.html')
 
 @app.route('/download', methods=['POST'])
 def download():
     url = request.form.get('url')
-    video_id = str(uuid.uuid4())
-    filename = f"{video_id}.mp4"
+    filename = f"{uuid.uuid4()}.mp4"
 
     ydl_opts = {
         'outtmpl': filename,
@@ -35,4 +34,4 @@ def download():
             os.remove(filename)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host='0.0.0.0', port=81)
